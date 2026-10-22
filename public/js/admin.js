@@ -213,6 +213,7 @@ function openProductForm(id = null) {
   const p = id ? state.products.find(x => x.id === id) : null;
   state.editing = p;
   removeImage = false;
+  pendingImage = null;
   const f = $('productForm');
   f.reset();
   $('pfError').textContent = '';
@@ -235,16 +236,40 @@ function openProductForm(id = null) {
 
 $('addProductTop').addEventListener('click', () => openProductForm());
 
-$('pfImage').addEventListener('change', e => {
+// Phone photos are often 5–10MB; resize to a web-friendly JPEG before uploading
+async function shrinkImage(file, maxSide = 1600) {
+  if (file.type === 'image/gif') return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(bmp.width * scale);
+    canvas.height = Math.round(bmp.height * scale);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff'; // transparent PNGs get a white background, not black
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.85));
+    return blob ? new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }) : file;
+  } catch {
+    return file;
+  }
+}
+
+let pendingImage = null;
+$('pfImage').addEventListener('change', async e => {
   const file = e.target.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { toast('Image must be smaller than 5MB', true); e.target.value = ''; return; }
+  const small = await shrinkImage(file);
+  if (small.size > 4 * 1024 * 1024) { toast('That photo is too large — please pick a smaller one', true); e.target.value = ''; return; }
+  pendingImage = small;
   removeImage = false;
-  setPreview(URL.createObjectURL(file));
+  setPreview(URL.createObjectURL(small));
 });
 
 $('pfRemoveImg').addEventListener('click', () => {
   $('pfImage').value = '';
+  pendingImage = null;
   removeImage = true;
   setPreview('');
 });
@@ -256,7 +281,8 @@ $('productForm').addEventListener('submit', async e => {
   btn.textContent = 'Saving…';
   $('pfError').textContent = '';
   const data = new FormData(e.target);
-  if (!$('pfImage').files.length) data.delete('image');
+  data.delete('image');
+  if (pendingImage) data.set('image', pendingImage);
   if (removeImage) data.set('removeImage', 'true');
   try {
     const p = state.editing;
@@ -368,7 +394,10 @@ $('settingsForm').addEventListener('submit', async e => {
 $('passwordForm').addEventListener('submit', async e => {
   e.preventDefault();
   try {
-    await authed('/api/admin/password', jsonOpts('PUT', Object.fromEntries(new FormData(e.target))));
+    // Changing the password signs out other devices; keep this one signed in with the new token
+    const { token } = await authed('/api/admin/password', jsonOpts('PUT', Object.fromEntries(new FormData(e.target))));
+    state.token = token;
+    try { sessionStorage.setItem('mojira-token', token); } catch {}
     e.target.reset();
     toast('Password updated');
   } catch (err) { toast(err.message, true); }

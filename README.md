@@ -11,7 +11,7 @@ npm start
 ```
 
 - Store: http://localhost:5050
-- Owner dashboard: http://localhost:5050/admin (there's also an "Owner login" link in the footer)
+- Owner dashboard: http://localhost:5050/admin.html (there's also an "Owner login" link in the footer)
 - **Default password: `mojira2026`.** Change it right away under **Settings → Change password**.
 
 ## What the owner can do (dashboard)
@@ -32,12 +32,21 @@ npm start
 
 ## Where things are saved
 
-- `data/products.json`, `data/orders.json`, `data/settings.json`: all store data
-- `uploads/`: product photos
+- **On Vercel:** store data is saved in Upstash Redis and product photos in Vercel Blob.
+- **On your computer or Render:** store data is saved in `data/products.json`, `data/orders.json` and `data/settings.json`, and photos in `uploads/`. Back up these two folders. To reset the store, stop the server and delete `data/`. The sample products come back the next time it starts.
 
-Back up these two folders. To reset the store, stop the server and delete `data/`. The sample products come back the next time it starts.
+## Put it online (Vercel, free)
 
-## Put it online (Render)
+Vercel deletes files between requests, so the store needs two free storage add-ons. In the Vercel project:
+
+1. Open **Storage**, click **Create Database**, choose **Upstash for Redis** (free plan), and connect it to this project.
+2. Open **Storage** again, click **Create Database**, choose **Blob** (choose **Public** access), and connect it to this project.
+3. Optional: open **Settings → Environment Variables** and add `ADMIN_PASSWORD` with the owner password. Do this **before** the first visit; otherwise the starting password is `mojira2026`. Change it under Settings once you log in.
+4. Open **Deployments**, click **⋯** on the latest deployment, and choose **Redeploy** so the new storage settings take effect.
+
+The store is at `https://mojira-store.vercel.app` and the dashboard at `/admin.html`.
+
+## Put it online (Render, about $7 a month)
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/alabiabeeb/mojira-store)
 
