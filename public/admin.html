@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOJIRA Owner Dashboard</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316120f'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23b08a4e' font-family='Georgia' font-style='italic'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <!-- Login -->
+  <div class="login-wrap" id="loginView">
+    <form class="login-card" id="loginForm">
+      <div class="logo" style="align-items:center;margin-bottom:24px"><span class="logo-mark">MOJIRA</span><span class="logo-sub">Owner dashboard</span></div>
+      <div class="field"><label for="password">Password</label><input class="input" id="password" type="password" required autocomplete="current-password" autofocus></div>
+      <button class="btn btn-dark btn-block" type="submit">Sign in</button>
+      <div class="error-msg" id="loginError"></div>
+      <a href="/" class="back-link">← Back to store</a>
+    </form>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="admin hidden" id="adminView">
+    <aside class="side" id="side">
+      <div class="logo" style="margin-bottom:32px"><span class="logo-mark" style="color:var(--ivory)">MOJIRA</span><span class="logo-sub">Owner dashboard</span></div>
+      <nav class="side-nav">
+        <button data-tab="overview" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</button>
+        <button data-tab="products"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Products</button>
+        <button data-tab="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2V4Z"/><path d="M9 9h6M9 13h6"/></svg>Orders <span class="pill hidden" id="pendingPill"></span></button>
+        <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>Settings</button>
+      </nav>
+      <div class="side-foot">
+        <a href="/" target="_blank" class="side-link">View store ↗</a>
+        <button class="side-link" id="logoutBtn">Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <button class="icon-btn side-toggle" id="sideToggle" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <h1 id="pageTitle">Overview</h1>
+        <button class="btn btn-dark btn-sm" id="addProductTop">+ Add product</button>
+      </div>
+
+      <!-- Overview -->
+      <section class="tab" id="tab-overview">
+        <p class="greet">Welcome back, Mojirade ✨</p>
+        <div class="stats" id="stats"></div>
+        <div class="panel">
+          <div class="panel-head"><h3>Needs attention</h3></div>
+          <div id="attention"></div>
+        </div>
+      </section>
+
+      <!-- Products -->
+      <section class="tab hidden" id="tab-products">
+        <div class="toolbar">
+          <div class="search" style="flex:1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="input" id="pSearch" type="search" placeholder="Search your products…" style="width:100%">
+          </div>
+          <select class="input" id="pFilter"><option value="">All categories</option></select>
+        </div>
+        <div class="plist" id="plist"></div>
+      </section>
+
+      <!-- Orders -->
+      <section class="tab hidden" id="tab-orders">
+        <div class="toolbar">
+          <div class="chips" id="oChips"></div>
+        </div>
+        <div id="olist"></div>
+      </section>
+
+      <!-- Settings -->
+      <section class="tab hidden" id="tab-settings">
+        <form class="panel" id="settingsForm">
+          <div class="panel-head"><h3>Store details</h3></div>
+          <div class="row">
+            <div class="field"><label>Store name</label><input class="input" name="storeName"></div>
+            <div class="field"><label>Tagline</label><input class="input" name="tagline"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>WhatsApp number (with country code, e.g. 2348012345678)</label><input class="input" name="whatsapp" inputmode="numeric"></div>
+            <div class="field"><label>Phone (shown on site)</label><input class="input" name="phone"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Email</label><input class="input" name="email" type="email"></div>
+            <div class="field"><label>Address / City</label><input class="input" name="address"></div>
+          </div>
+          <div class="panel-head" style="margin-top:12px"><h3>Payment & delivery</h3></div>
+          <div class="row">
+            <div class="field"><label>Bank name</label><input class="input" name="bankName"></div>
+            <div class="field"><label>Account name</label><input class="input" name="accountName"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Account number</label><input class="input" name="accountNumber" inputmode="numeric"></div>
+            <div class="field"><label>Delivery fee (₦) — 0 for free</label><input class="input" name="deliveryFee" type="number" min="0" step="1"></div>
+          </div>
+          <button class="btn btn-dark" type="submit">Save settings</button>
+        </form>
+
+        <form class="panel" id="passwordForm">
+          <div class="panel-head"><h3>Change password</h3></div>
+          <div class="row">
+            <div class="field"><label>Current password</label><input class="input" name="current" type="password" required autocomplete="current-password"></div>
+            <div class="field"><label>New password (min. 6 characters)</label><input class="input" name="next" type="password" required minlength="6" autocomplete="new-password"></div>
+          </div>
+          <button class="btn btn-outline" type="submit">Update password</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <!-- Product form modal -->
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="productModal" role="dialog" aria-modal="true">
+    <div class="modal-box narrow" style="width:min(640px,100%)">
+      <button class="icon-btn modal-close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <h2 class="modal-title" id="pfTitle">Add product</h2>
+      <p class="modal-sub">Fill in the details. Customers see this immediately.</p>
+      <form id="productForm">
+        <label>Photo</label>
+        <label class="uploader" for="pfImage">
+          <div id="pfPreview" class="uploader-preview"><span>Tap to upload a photo<br><small>JPG, PNG or WEBP · max 5MB</small></span></div>
+          <input type="file" id="pfImage" name="image" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+        </label>
+        <button type="button" class="btn btn-ghost btn-sm hidden" id="pfRemoveImg" style="margin:-8px 0 12px">Remove photo</button>
+        <div class="field"><label for="pfName">Product name *</label><input class="input" id="pfName" name="name" required maxlength="120"></div>
+        <div class="field"><label for="pfCategory">Category *</label><select class="input" id="pfCategory" name="category" required></select></div>
+        <div class="row">
+          <div class="field"><label for="pfPrice">Price (₦) *</label><input class="input" id="pfPrice" name="price" type="number" min="0" step="1" required></div>
+          <div class="field"><label for="pfOld">Old price (₦) — for sales</label><input class="input" id="pfOld" name="oldPrice" type="number" min="0" step="1"></div>
+        </div>
+        <div class="field"><label for="pfQty">Quantity in stock *</label><input class="input" id="pfQty" name="quantity" type="number" min="0" step="1" required></div>
+        <div class="field"><label for="pfDesc">Description</label><textarea class="input" id="pfDesc" name="description" placeholder="Material, sizes available, colour…"></textarea></div>
+        <button class="btn btn-dark btn-block" type="submit" id="pfSave">Save product</button>
+        <div class="error-msg" id="pfError"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

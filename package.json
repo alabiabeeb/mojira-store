@@ -1,0 +1,17 @@
+{
+  "name": "mojira-store",
+  "version": "1.0.0",
+  "description": "MOJIRA — women's shoes, women's bags and wristwatches. Storefront + owner admin.",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^2.0.2"
+  }
+}

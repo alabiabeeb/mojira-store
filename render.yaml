@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: mojira-store
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/settings
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATA_DIR
+        value: /var/data/data
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: ADMIN_PASSWORD
+        sync: false
+    disk:
+      name: mojira-data
+      mountPath: /var/data
+      sizeGB: 1

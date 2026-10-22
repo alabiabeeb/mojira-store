@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MOJIRA — Luxe Shoes, Bags & Watches</title>
+  <meta name="description" content="MOJIRA by Mojirade Ojasope — elegant women's shoes, women's bags, and wristwatches for women and men.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2316120f'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%23b08a4e' font-family='Georgia' font-style='italic'>M</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="announce" id="announce">Nationwide delivery · Pay on transfer · Quality guaranteed</div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a href="/" class="logo" aria-label="MOJIRA home">
+        <span class="logo-mark" data-store-name>MOJIRA</span>
+        <span class="logo-sub" data-tagline>Luxe by Mojirade Ojasope</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#shop" data-cat="women-shoes">Shoes</a>
+        <a href="#shop" data-cat="women-bags">Bags</a>
+        <a href="#shop" data-cat="women-watches">Her Watches</a>
+        <a href="#shop" data-cat="men-watches">His Watches</a>
+        <a href="#about">Our Story</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-btn" id="searchJump" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
+        <button class="icon-btn" id="cartBtn" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="badge hidden" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <div class="eyebrow">New season · Curated luxury</div>
+          <h1>Walk in grace,<br>carry with <em>confidence</em>.</h1>
+          <p>Hand-picked heels, statement bags and timeless wristwatches for her and for him — chosen with love by Mojirade Ojasope.</p>
+          <div class="hero-cta">
+            <a href="#shop" class="btn btn-dark">Shop the collection</a>
+            <a href="#categories" class="btn btn-outline">Browse categories</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-circle"></div>
+          <div class="hero-circle c2"></div>
+          <div class="hero-monogram">Mj</div>
+          <div class="hero-chip a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7L12 3Z"/></svg>Premium quality</div>
+          <div class="hero-chip b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="7"/><path d="M12 8v4l2.5 1.5"/></svg>Timeless watches</div>
+          <div class="hero-chip c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17" cy="17.5" r="1.5"/></svg>Fast delivery</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="categories">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">Shop by category</div><h2>Find your signature piece</h2></div>
+        </div>
+        <div class="cat-grid" id="catGrid"></div>
+      </div>
+    </section>
+
+    <section id="shop" style="padding-top:0">
+      <div class="container">
+        <div class="section-head">
+          <div><div class="eyebrow">The collection</div><h2 id="shopTitle">All products</h2></div>
+        </div>
+        <div class="toolbar">
+          <div class="chips" id="chips"></div>
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="input" id="search" type="search" placeholder="Search products…">
+          </div>
+          <select class="input" id="sort" aria-label="Sort">
+            <option value="new">Newest</option>
+            <option value="low">Price: low to high</option>
+            <option value="high">Price: high to low</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+
+    <div class="features">
+      <div class="container feat-grid">
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg><div><h4>Authentic quality</h4><p>Every piece inspected before it ships.</p></div></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.5"/><circle cx="17" cy="17.5" r="1.5"/></svg><div><h4>Nationwide delivery</h4><p>Swift, tracked delivery to your door.</p></div></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg><div><h4>Easy payment</h4><p>Pay by bank transfer — simple & secure.</p></div></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12a8 8 0 0 1-11.8 7L4 20l1-5A8 8 0 1 1 21 12Z"/></svg><div><h4>Personal service</h4><p>Chat with us on WhatsApp anytime.</p></div></div>
+      </div>
+    </div>
+
+    <section id="about">
+      <div class="container about">
+        <div class="about-quote">“Beauty is in the details — the heel you walk in, the bag you carry, the time you keep.”</div>
+        <div>
+          <div class="eyebrow">Our story</div>
+          <p><b>MOJIRA</b> is the house of Mojirade Rafiat Ojasope — a boutique built on a love for elegant footwear, beautiful handbags and watches that last a lifetime.</p>
+          <p>Every item in our store is personally selected for its quality, comfort and style, so that you can shop with complete confidence.</p>
+          <div class="sign">— Mojirade R. Ojasope</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo" style="margin-bottom:14px"><span class="logo-mark" data-store-name>MOJIRA</span><span class="logo-sub" data-tagline>Luxe by Mojirade Ojasope</span></div>
+          <p style="color:var(--ink-soft);font-size:.92rem;max-width:320px">Women's shoes, women's bags and wristwatches for her and him.</p>
+        </div>
+        <div>
+          <h5>Shop</h5>
+          <ul id="footCats"></ul>
+        </div>
+        <div>
+          <h5>Contact</h5>
+          <ul>
+            <li id="fPhone"></li>
+            <li id="fEmail"></li>
+            <li id="fAddress"></li>
+            <li><a id="fWhatsapp" target="_blank" rel="noopener">Chat on WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year"></span> <span data-store-name>MOJIRA</span>. All rights reserved.</span>
+        <a href="/admin">Owner login</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" id="waFloat" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.7.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3ZM12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+  </a>
+
+  <!-- Cart drawer -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-label="Shopping bag">
+    <div class="drawer-head">
+      <h3>Your bag</h3>
+      <button class="icon-btn" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="drawer-foot" id="cartFoot">
+      <div class="sum-row"><span>Subtotal</span><span id="cartSubtotal">₦0</span></div>
+      <div class="sum-row"><span>Delivery</span><span id="cartDelivery">₦0</span></div>
+      <div class="sum-row total"><span>Total</span><span id="cartTotal">₦0</span></div>
+      <button class="btn btn-dark btn-block" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Product modal -->
+  <div class="modal" id="productModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <button class="icon-btn modal-close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div id="productDetail"></div>
+    </div>
+  </div>
+
+  <!-- Checkout modal -->
+  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true">
+    <div class="modal-box narrow">
+      <button class="icon-btn modal-close" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <div id="checkoutView">
+        <h2 class="modal-title">Checkout</h2>
+        <p class="modal-sub">Enter your delivery details. You'll get our bank details to complete payment.</p>
+        <form id="checkoutForm">
+          <div class="field"><label for="cName">Full name *</label><input class="input" id="cName" name="name" required autocomplete="name"></div>
+          <div class="row">
+            <div class="field"><label for="cPhone">Phone number *</label><input class="input" id="cPhone" name="phone" type="tel" required autocomplete="tel"></div>
+            <div class="field"><label for="cEmail">Email</label><input class="input" id="cEmail" name="email" type="email" autocomplete="email"></div>
+          </div>
+          <div class="field"><label for="cAddress">Delivery address *</label><textarea class="input" id="cAddress" name="address" required autocomplete="street-address"></textarea></div>
+          <div class="field"><label for="cNote">Note (size, colour, etc.)</label><input class="input" id="cNote" name="note"></div>
+          <div class="sum-row total"><span>Total to pay</span><span id="coTotal">₦0</span></div>
+          <button class="btn btn-dark btn-block" type="submit" id="placeOrder">Place order</button>
+          <div class="error-msg" id="coError"></div>
+        </form>
+      </div>
+      <div id="successView" class="hidden"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/store.js"></script>
+</body>
+</html>
