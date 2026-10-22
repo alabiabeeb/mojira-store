@@ -18,7 +18,10 @@ const MAX_IMAGE_BYTES = 4 * 1024 * 1024; // Vercel caps request bodies at 4.5MB
 const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const USE_REDIS = !!(REDIS_URL && REDIS_TOKEN);
-const USE_BLOB = !!process.env.BLOB_READ_WRITE_TOKEN;
+// Vercel names this BLOB_READ_WRITE_TOKEN unless a custom prefix was chosen when connecting the store
+const BLOB_TOKEN = process.env.BLOB_READ_WRITE_TOKEN ||
+  Object.entries(process.env).find(([k]) => k.endsWith('_READ_WRITE_TOKEN'))?.[1];
+const USE_BLOB = !!BLOB_TOKEN;
 
 const CATEGORIES = {
   'women-shoes': "Women's Shoes",
@@ -73,8 +76,13 @@ async function saveImage(file) {
   const name = newId('img') + ext;
   if (USE_BLOB) {
     const { put } = require('@vercel/blob');
-    const blob = await put(`products/${name}`, file.buffer, { access: 'public', contentType: file.mimetype });
-    return blob.url;
+    try {
+      const blob = await put(`products/${name}`, file.buffer, { access: 'public', contentType: file.mimetype, token: BLOB_TOKEN });
+      return blob.url;
+    } catch (e) {
+      console.error(e);
+      throw httpError(503, 'Could not save the photo. Make sure the Blob store connected in Vercel has Public access, then redeploy.');
+    }
   }
   if (ON_VERCEL) throw httpError(503, 'Photo storage is not connected yet. In Vercel, open Storage and connect a Blob store.');
   fs.writeFileSync(path.join(UPLOAD_DIR, name), file.buffer);
@@ -86,7 +94,7 @@ function deleteImage(image) {
   if (image.startsWith('/uploads/')) {
     fs.rm(path.join(UPLOAD_DIR, path.basename(image)), { force: true }, () => {});
   } else if (USE_BLOB && image.startsWith('https://')) {
-    require('@vercel/blob').del(image).catch(() => {});
+    require('@vercel/blob').del(image, { token: BLOB_TOKEN }).catch(() => {});
   }
 }
 
